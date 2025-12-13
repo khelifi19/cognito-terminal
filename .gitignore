@@ -1,0 +1,10 @@
+# Fichiers système et Python
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+venv/
+.env
+
+# Fichiers de données locales (Historique)
+*.json
