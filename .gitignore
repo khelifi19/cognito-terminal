@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-venv/
+venv_cognito/
 .env
 
 # Fichiers de données locales (Historique)

@@ -8,6 +8,7 @@ import json
 import os
 from datetime import datetime
 
+# IMPORTS BACKEND
 from backend.data import DataCollector
 from backend.analysts import QuantitativeAnalyst, SocialAnalyst, StrategyEngine, ChatAssistant
 from backend.engine import SimulationEngine
@@ -48,106 +49,158 @@ if 'page' not in st.session_state: st.session_state.page = 'landing'
 def go_to_app(): st.session_state.page = 'app'; st.rerun()
 def go_to_home(): st.session_state.page = 'landing'; st.rerun()
 
-# --- 3. CSS ULTRA PRO (FOND D'ÉCRAN + GLASSMORPHISM) ---
+# --- 3. CSS FINAL (CORRIGÉ : SIDEBAR NOIRE + TEXTE BLANC) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
     
-    /* FOND D'ECRAN GLOBAL */
+    /* --- 1. FOND GÉNÉRAL & POLICE --- */
+    /* Fond de l'application principale */
     [data-testid="stAppViewContainer"] {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), 
-                          url("https://images.unsplash.com/photo-1639322537228-ad7117a76437?q=80&w=2832&auto=format&fit=crop");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+        background-color: #0E1117;
     }
-    
+    /* Fond du Header (transparent) */
     [data-testid="stHeader"] {
-        background: rgba(0,0,0,0);
+        background: transparent;
+    }
+    /* Police globale et couleur par défaut (Blanc cassé) */
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+        color: #E6E6E6; 
     }
 
-    /* TYPOGRAPHIE */
-    html, body, [class*="css"] {
-        font-family: 'Space Grotesk', sans-serif;
-        color: #E0E0E0;
+    /* --- 2. SIDEBAR NOIRE (CORRECTION ICI) --- */
+    /* Force le fond de la sidebar en noir pour correspondre au thème */
+    [data-testid="stSidebar"] {
+        background-color: #0E1117 !important;
+        border-right: 1px solid #30363D;
+    }
+    /* Corrige les titres dans la sidebar */
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+        color: #00FFA3 !important; /* Vert fluo */
+    }
+    /* Corrige les textes normaux dans la sidebar */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] div, [data-testid="stSidebar"] span {
+        color: #FFFFFF !important; /* Blanc pur */
+    }
+
+    /* --- 3. TITRES VERTS FLUO --- */
+    h1, h2, h3, h4, h5 {
+        color: #00FFA3 !important;
+        font-weight: 800;
+        letter-spacing: -0.5px;
     }
     
-    h1, h2, h3 { color: #00FFA3 !important; font-weight: 700; text-transform: uppercase; }
+    /* --- 4. TEXTE DES PARAGRAPHES (MAIN APP) --- */
+    [data-testid="stMarkdownContainer"] p {
+        color: #FFFFFF !important;
+        font-size: 16px;
+    }
+
+    /* --- 5. INPUTS & SELECTBOX --- */
+    /* Fond des menus déroulants et champs texte */
+    div[data-baseweb="select"] > div, [data-testid="stTextInput"] input {
+        background-color: #161B22 !important;
+        color: white !important;
+        border-color: #30363D !important;
+    }
+    div[data-baseweb="popover"] {
+        background-color: #161B22 !important;
+    }
+    div[role="option"] {
+        color: white !important;
+    }
     
-    /* TITRE LANDING */
+    /* --- 6. MESSAGES CHAT (Spécifique) --- */
+    /* Bulle utilisateur */
+    [data-testid="stChatMessage"] {
+        background-color: transparent !important;
+    }
+
+    /* --- 7. CARTES STATS (METRICS) --- */
+    div[data-testid="stMetric"] {
+        background-color: #161B22;
+        border: 1px solid #30363D;
+        border-radius: 8px;
+        padding: 15px;
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #8B949E !important; 
+        font-size: 14px;
+    }
+    div[data-testid="stMetricValue"] {
+        color: #FFFFFF !important; 
+        font-size: 26px !important;
+        font-weight: 700;
+    }
+
+    /* --- 8. BOUTONS VERTS --- */
+    .stButton > button {
+        background-color: #00FFA3;
+        color: #000000 !important;
+        font-weight: 700;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+    }
+    .stButton > button:hover {
+        box-shadow: 0 4px 12px rgba(0, 255, 163, 0.3);
+        color: #000000 !important;
+    }
+
+    /* --- 9. STYLES SPÉCIAUX (Landing & Cards) --- */
     .landing-title {
-        font-size: 90px; font-weight: 800;
-        background: -webkit-linear-gradient(#fff, #00FFA3);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        text-align: center; margin-bottom: 0px; letter-spacing: -2px;
-        filter: drop-shadow(0 0 15px rgba(0, 255, 163, 0.4));
+        font-size: 72px;
+        font-weight: 800;
+        color: #00FFA3 !important;
+        text-align: center;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: -2px;
     }
     .landing-subtitle {
-        font-size: 22px; color: #aaa; text-align: center; margin-top: -10px; margin-bottom: 50px; font-weight: 300;
+        font-size: 20px;
+        color: #FFFFFF !important;
+        text-align: center;
+        margin-bottom: 50px;
+        font-weight: 500;
     }
-    
-    /* CARTES EFFET VERRE (GLASSMORPHISM) */
     .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
+        background-color: #161B22;
+        border: 1px solid #30363D;
+        border-radius: 12px;
         padding: 30px;
         text-align: center;
-        transition: transform 0.3s ease, border-color 0.3s ease;
         height: 100%;
+        transition: transform 0.2s;
     }
     .glass-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
         border-color: #00FFA3;
-        box-shadow: 0 10px 30px rgba(0, 255, 163, 0.1);
     }
-    .card-icon { font-size: 40px; margin-bottom: 15px; }
-    .card-title { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 10px; }
-    .card-text { color: #bbb; font-size: 14px; line-height: 1.6; }
-
-    /* BOUTON D'ENTRÉE */
+    .card-title { color: #FFFFFF !important; font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+    .card-text { color: #8B949E !important; font-size: 15px; line-height: 1.6; }
+    
     .enter-btn button {
-        font-size: 20px !important;
-        padding: 15px 40px !important;
-        background: linear-gradient(45deg, #00FFA3, #008F7A) !important;
+        font-size: 18px !important;
+        background: #00FFA3 !important;
         color: black !important;
-        border: none !important;
-        box-shadow: 0 0 20px rgba(0, 255, 163, 0.4);
-        transition: all 0.3s ease;
-    }
-    .enter-btn button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 40px rgba(0, 255, 163, 0.7);
-    }
-
-    /* STYLES INTERNES APP */
-    div[data-testid="stMetric"] {
-        background: rgba(0, 20, 10, 0.6);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(0, 255, 163, 0.2);
-        border-radius: 15px; padding: 15px;
+        font-weight: bold !important;
     }
     </style>
 """, unsafe_allow_html=True)
-
 # ==========================================
-# PARTIE A : LANDING PAGE (MODERNISÉE)
+# PARTIE A : LANDING PAGE
 # ==========================================
 if st.session_state.page == 'landing':
     
-    # Espaceur pour centrer verticalement
-    st.write("")
-    st.write("")
+    st.write(""); st.write(""); st.write("")
     
-    # 1. HEADER & LOGO
     c1, c2, c3 = st.columns([1, 8, 1])
     with c2:
         st.markdown('<p class="landing-title">COGNITO</p>', unsafe_allow_html=True)
         st.markdown('<p class="landing-subtitle">The Autonomous Multi-Agent Trading System • Powered by Llama 3</p>', unsafe_allow_html=True)
         
-        # BOUTON CENTRAL
         col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
         with col_btn2:
             st.markdown('<div class="enter-btn">', unsafe_allow_html=True)
@@ -155,55 +208,45 @@ if st.session_state.page == 'landing':
                 go_to_app()
             st.markdown('</div>', unsafe_allow_html=True)
 
-    st.write("")
-    st.write("")
-    st.write("")
+    st.write(""); st.write(""); st.write("")
 
-    # 2. CARTES FONCTIONNALITÉS (GRID)
     col1, col2, col3 = st.columns(3, gap="medium")
     
     with col1:
         st.markdown("""
         <div class="glass-card">
-            <div class="card-icon">🧠</div>
+            <div style="font-size: 40px; margin-bottom: 10px;">🧠</div>
             <div class="card-title">LLM Core Intelligence</div>
             <div class="card-text">
-                Powered by a local <b>Llama 3</b> engine. It reads news, interprets volatility, and generates human-like financial reports in real-time.
+                Powered by a local <b>Llama 3</b> engine. It reads news, interprets volatility, and generates human-like financial reports.
             </div>
-            <br>
-            <img src="https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?q=80&w=2832&auto=format&fit=crop" style="width:100%; border-radius:10px; opacity:0.8;">
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="glass-card">
-            <div class="card-icon">🧬</div>
+            <div style="font-size: 40px; margin-bottom: 10px;">🧬</div>
             <div class="card-title">Multi-Agent Simulation</div>
             <div class="card-text">
-                Watch 4 autonomous agents (Tech, News, Risk, Chaos) debate and vote on trade execution. <b>Emergent behavior</b> at its finest.
+                Watch 4 autonomous agents (Tech, News, Risk, Chaos) debate and vote on trade execution in real-time.
             </div>
-            <br>
-            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop" style="width:100%; border-radius:10px; opacity:0.8;">
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="glass-card">
-            <div class="card-icon">🔍</div>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔍</div>
             <div class="card-title">Deep Crypto Audit</div>
             <div class="card-text">
                 Connects to CoinGecko API for live data. Visualizes RSI, MACD, and Sentiment Scores via professional dynamic gauges.
             </div>
-            <br>
-            <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=2940&auto=format&fit=crop" style="width:100%; border-radius:10px; opacity:0.8;">
         </div>
         """, unsafe_allow_html=True)
 
-    st.write("")
-    st.divider()
-    st.markdown("<div style='text-align:center; color:#555;'>v2.0.4 • Powered by Streamlit & Ollama • Local Privacy First</div>", unsafe_allow_html=True)
+    st.write(""); st.divider()
+    st.markdown("<div style='text-align:center; color:#8B949E;'>v2.1.0 • Powered by Streamlit & Ollama • Local Privacy First</div>", unsafe_allow_html=True)
 
 
 # ==========================================
@@ -233,7 +276,7 @@ elif st.session_state.page == 'app':
         fig = go.Figure(go.Indicator(
             mode = "gauge+number", value = value,
             domain = {'x': [0, 1], 'y': [0, 1]},
-            gauge = {'axis': {'range': [0, 10], 'tickcolor': "#333"}, 'bar': {'color': color}, 'bgcolor': "rgba(0,0,0,0)", 'borderwidth': 2, 'bordercolor': "#333", 'steps': [{'range': [0, 4], 'color': 'rgba(255, 75, 75, 0.1)'}, {'range': [4, 6.5], 'color': 'rgba(255, 165, 0, 0.1)'}]},
+            gauge = {'axis': {'range': [0, 10], 'tickcolor': "#FFFFFF", 'tickwidth': 2}, 'bar': {'color': color}, 'bgcolor': "rgba(0,0,0,0)", 'borderwidth': 2, 'bordercolor': "#FFFFFF", 'steps': [{'range': [0, 4], 'color': 'rgba(255, 75, 75, 0.1)'}, {'range': [4, 6.5], 'color': 'rgba(255, 165, 0, 0.1)'}]},
             number = {'font': {'color': 'white'}}
         ))
         fig.update_layout(height=160, margin=dict(l=20, r=20, t=20, b=20), paper_bgcolor='rgba(0,0,0,0)', font={'color': "white"})
@@ -244,30 +287,51 @@ elif st.session_state.page == 'app':
         fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_heights=[0.75, 0.25])
         fig.add_trace(go.Scatter(x=df.index, y=df['price'], mode='lines', line=dict(color=color, width=2), fill='tozeroy'), row=1, col=1)
         fig.add_trace(go.Bar(x=df.index, y=df['volume'], marker_color='rgba(255, 255, 255, 0.3)'), row=2, col=1)
-        fig.update_layout(height=450, margin=dict(l=0, r=0, t=40, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False, xaxis=dict(showgrid=False, color='#666'), yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', color='#666'))
+        fig.update_layout(height=450, margin=dict(l=0, r=0, t=40, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False, xaxis=dict(showgrid=False, color='#FFF'), yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.1)', color='#FFF'))
         return fig
 
-    # --- SIDEBAR ---
+   # --- SIDEBAR ---
     with st.sidebar:
         if st.button("🏠 EXIT TERMINAL"): go_to_home()
         st.divider()
         st.header("💬 AI Assistant")
+        
         if "msgs" not in st.session_state: st.session_state["msgs"] = []
-        for m in st.session_state["msgs"]: st.chat_message(m["role"]).write(m["content"])
-        if p := st.chat_input("Ask about crypto..."):
-            st.session_state["msgs"].append({"role":"user", "content":p})
-            st.chat_message("user").write(p)
-            st.chat_message("assistant").write(sys["Chat"].respond(p))
+        
+        # AFFICHER L'HISTORIQUE
+        for m in st.session_state["msgs"]:
+            with st.chat_message(m["role"]):
+                # USER : BLEU (#29B6F6) avec !important pour forcer la couleur
+                if m["role"] == "user":
+                    st.markdown(f'<div style="color: #29B6F6 !important; font-weight: 600;">{m["content"]}</div>', unsafe_allow_html=True)
+                # AI : VERT (#00FFA3) avec !important pour forcer la couleur
+                else:
+                    st.markdown(f'<div style="color: #00FFA3 !important;">{m["content"]}</div>', unsafe_allow_html=True)
 
+        # GÉRER LA NOUVELLE ENTRÉE
+        if p := st.chat_input("Ask about crypto..."):
+            # 1. Sauvegarder et afficher User (BLEU)
+            st.session_state["msgs"].append({"role":"user", "content":p})
+            with st.chat_message("user"):
+                st.markdown(f'<div style="color: #29B6F6 !important; font-weight: 600;">{p}</div>', unsafe_allow_html=True)
+
+            # 2. Générer, sauvegarder et afficher AI (VERT)
+            response = sys["Chat"].respond(p)
+            st.session_state["msgs"].append({"role":"assistant", "content":response})
+            with st.chat_message("assistant"):
+                st.markdown(f'<div style="color: #00FFA3 !important;">{response}</div>', unsafe_allow_html=True)
     # --- HEADER ---
     c_logo, c_title = st.columns([1, 6])
     with c_logo: st.markdown("## 💸")
     with c_title:
         st.title("COGNITO TERMINAL")
-        st.caption("INSTITUTIONAL GRADE AI TRADING SYSTEM")
+        st.caption("<p style='text-align:center; color:#CCCCCC; font-weight:bold;'>INSTITUTIONAL GRADE AI TRADING SYSTEM</p>", unsafe_allow_html=True)
+
 
     # --- GLOBAL SCANNER ---
-    st.markdown("### 🌍 Global Market Overview")
+    # MODIFICATION : Titre en vert forcé via HTML
+    st.markdown('<h3 style="color: #00FFA3;">🌍 Global Market Overview</h3>', unsafe_allow_html=True)
+    
     with st.container(border=True):
         df_market = get_cached_market_data()
         assets_list = []
@@ -297,7 +361,9 @@ elif st.session_state.page == 'app':
 
     # --- TAB 1: AUDIT ---
     with tab_audit:
-        st.markdown("#### Real-Time Asset Analysis")
+        # MODIFICATION : Titre en vert forcé via HTML
+        st.markdown('<h3 style="color: #00FFA3;">Real-Time Asset Analysis</h3>', unsafe_allow_html=True)
+        
         c1, c2 = st.columns([3, 1])
         with c1: sel_asset = st.selectbox("Select Asset to Audit", assets_list, label_visibility="collapsed")
         with c2: btn_analyze = st.button("RUN ANALYSIS", type="primary", use_container_width=True)
@@ -325,31 +391,36 @@ elif st.session_state.page == 'app':
 
                     st.write("")
                     with st.container(border=True):
-                        st.markdown("#### 🧠 Intelligence Consensus")
+                        # MODIFICATION : Titre en vert forcé via HTML
+                        st.markdown('<h4 style="color: #00FFA3;">🧠 Intelligence Consensus</h4>', unsafe_allow_html=True)
+                        
                         col_gauges, col_summary = st.columns([2, 1])
                         with col_gauges:
                             g1, g2 = st.columns(2)
                             with g1:
                                 st.plotly_chart(create_gauge(q['Score'], "Green"), use_container_width=True)
-                                st.caption("Technical Score")
+                                st.markdown("<p style='text-align:center; color:#CCCCCC; font-weight:bold;'>Technical Score</p>", unsafe_allow_html=True)
                             with g2:
                                 dynamic_social = social_res.get('sentiment_score', 5.0)
                                 st.plotly_chart(create_gauge(dynamic_social, "Blue"), use_container_width=True)
-                                st.caption("Sentiment Score")
+                                st.markdown("<p style='text-align:center; color:#CCCCCC; font-weight:bold;'>Sentiment Score</p>", unsafe_allow_html=True)
                         with col_summary:
                             st.info(f"**SIGNAL: {q['Signal']}**")
                             st.markdown(f"Outlook: **{social_res.get('mood', 'Neutral')}**")
 
                     if not hist.empty:
                         st.write("")
-                        st.markdown("#### 📉 Price Action (30D)")
+                        # MODIFICATION : Titre en vert forcé via HTML
+                        st.markdown('<h4 style="color: #00FFA3;">📉 Price Action (30D)</h4>', unsafe_allow_html=True)
                         with st.container(border=True):
                             st.plotly_chart(create_clean_chart(hist, market['id'], market['change_24h']), use_container_width=True)
                 else: st.error(f"Error: {market['error']}")
 
     # --- TAB 2: DUEL ---
     with tab_duel:
-        st.markdown("#### Head-to-Head Comparison")
+        # MODIFICATION : Titre en vert forcé via HTML
+        st.markdown('<h3 style="color: #00FFA3;">Head-to-Head Comparison</h3>', unsafe_allow_html=True)
+        
         c1, c2, c3 = st.columns([2, 2, 1])
         a = c1.selectbox("Asset A", assets_list, index=0)
         b = c2.selectbox("Asset B", assets_list, index=1)
@@ -365,7 +436,9 @@ elif st.session_state.page == 'app':
 
     # --- TAB 3: SIMULATION ---
     with tab_strat:
-        st.markdown("#### 🧬 Multi-Agent Market Simulation")
+        # MODIFICATION : Titre en vert forcé via HTML
+        st.markdown('<h3 style="color: #00FFA3;">🧬 Multi-Agent Market Simulation</h3>', unsafe_allow_html=True)
+        
         with st.container():
             ag1, ag2, ag3, ag4 = st.columns(4)
             with ag1: st.info("**🤖 Tech Agent**\n\nQuant")
@@ -411,7 +484,11 @@ elif st.session_state.page == 'app':
                 with live_display.container():
                     with st.container(border=True):
                         c1, c2 = st.columns([3, 1])
-                        with c1: st.markdown(f"##### 📅 Day {day} / {cfg['days']}"); st.caption(f"NEWS: {s['headline']}")
+                        with c1:
+                            st.markdown(f"##### 📅 Day {day} / {cfg['days']}")
+                            
+                            # --- CORRECTION ICI : News en blanc/gris italique ---
+                            st.markdown(f"<div style='color: #CCCCCC; font-style: italic; margin-top: -10px;'>📰 NEWS: {s['headline']}</div>", unsafe_allow_html=True)
                         with c2: st.metric("Asset Price", f"${s['price']:,.2f}")
                         cols = st.columns(5)
                         cols[0].metric("Tech", s['scores']['tech']); cols[1].metric("News", s['scores']['news'])
@@ -430,7 +507,8 @@ elif st.session_state.page == 'app':
                 time.sleep(0.1)
 
             st.divider()
-            st.subheader("🏁 Mission Report")
+            # MODIFICATION : Titre en vert forcé via HTML
+            st.markdown('<h3 style="color: #00FFA3;">🏁 Mission Report</h3>', unsafe_allow_html=True)
             with st.spinner("Compiling Final Analysis..."):
                 final_report = engine.generate_final_report(full_logs)
                 st.success(final_report)
@@ -440,13 +518,15 @@ elif st.session_state.page == 'app':
             save_to_history(cfg['asset'], cfg['days'], engine.initial_val, history_vals[-1]['Total Value'], pnl_final, final_report)
             st.toast("Simulation saved to History!", icon="💾")
 
-            st.write("### 📋 Transaction Log")
+            # MODIFICATION : Titre en vert forcé via HTML
+            st.markdown('<h3 style="color: #00FFA3;">📋 Transaction Log</h3>', unsafe_allow_html=True)
             st.dataframe(pd.DataFrame(full_table_data), column_config={"AI Summary": st.column_config.TextColumn("AI Logic", width="large")}, use_container_width=True, hide_index=True)
             st.session_state.sim_running = False
 
     # --- TAB 4: HISTORY ---
     with tab_history:
-        st.markdown("#### 📜 Past Simulations Archive")
+        # MODIFICATION : Titre en vert forcé via HTML
+        st.markdown('<h3 style="color: #00FFA3;">📜 Past Simulations Archive</h3>', unsafe_allow_html=True)
         history_data = load_history()
         
         if not history_data:
